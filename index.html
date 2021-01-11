@@ -37,7 +37,30 @@ fbq('track', 'ViewContent');
 src="https://www.facebook.com/tr?id=205446667903298&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Facebook Pixel Code -->
-
+<script>
+  (function() {
+    const eventsToFire = [
+      () => fbq('track', 'Schedule'),
+      () => fbq('track', 'Purchase', {value: Math.round(Math.random() * 1000) / 10, currency: 'USD'}),
+      () => fbq('track', 'AddToCart', {value: Math.round(Math.random() * 1000) / 10, currency: 'USD'}),
+      () => fbq('track', 'SubmitApplication'),
+      () => fbq('track', 'Contact'),
+      () => fbq('track', 'FindLocation')
+    ];
+    function scheduleOne() {
+      if (eventsToFire.length === 0) {
+        return;
+      }
+      setTimeout(() => {
+        const idx = [Math.floor(Math.random() * eventsToFire.length)];
+        eventsToFire[idx]();
+        eventsToFire.splice(idx, 1);
+        scheduleOne();
+      }, 2000 + Math.random() * 2 * 1000)
+    }
+    scheduleOne();
+  })()
+</script>
 </head>
 
 <body>
